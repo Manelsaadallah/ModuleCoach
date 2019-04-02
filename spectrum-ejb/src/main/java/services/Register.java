@@ -1,0 +1,329 @@
+package services;
+
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+//import javax.persistence.Query;
+//import javax.persistence.TypedQuery;
+
+import entities.Coaching;
+import entities.Course;
+import entities.Post;
+import entities.Skill;
+import entities.User;
+@Stateless
+public class Register implements RegisterLocal, RegisterRemote {
+	
+	@PersistenceContext(unitName="spectrum-ejb")
+	private EntityManager em;
+	/////////////////////MANAGE COACH(ADD NEW COACH)/////////////////////////
+	
+	@Override
+	public  void login(String login , String pass) {
+		/*Query q = em.createQuery("select e from user e where e.username=:login and e.password=:pass");
+				q.setParameter("login", login).setParameter("pass", pass);
+				System.out.println(q);*/
+	}
+
+
+	
+	//______________________________________________________________________________
+	/**
+	 * Validation Password     */
+	//______________________________________________________________________________
+	private static boolean validation_Password(final String PASSWORD_Arg)    {
+	    boolean result = false;
+	    try {
+	        if (PASSWORD_Arg!=null) {
+	            //_________________________
+	            //Parameteres
+	            final String MIN_LENGHT="8";
+	            final String MAX_LENGHT="20";
+	            final boolean SPECIAL_CHAR_NEEDED=true;
+
+	            //_________________________
+	            //Modules
+	            final String ONE_DIGIT = "(?=.*[0-9])";  //(?=.*[0-9]) a digit must occur at least once
+	            final String LOWER_CASE = "(?=.*[a-z])";  //(?=.*[a-z]) a lower case letter must occur at least once
+	            final String UPPER_CASE = "(?=.*[A-Z])";  //(?=.*[A-Z]) an upper case letter must occur at least once
+	            final String NO_SPACE = "(?=\\S+$)";  //(?=\\S+$) no whitespace allowed in the entire string
+	            //final String MIN_CHAR = ".{" + MIN_LENGHT + ",}";  //.{8,} at least 8 characters
+	            final String MIN_MAX_CHAR = ".{" + MIN_LENGHT + "," + MAX_LENGHT + "}";  //.{5,10} represents minimum of 5 characters and maximum of 10 characters
+
+	            final String SPECIAL_CHAR;
+	            if (SPECIAL_CHAR_NEEDED==true) SPECIAL_CHAR= "(?=.*[@#$%^&+=])"; //(?=.*[@#$%^&+=]) a special character must occur at least once
+	            else SPECIAL_CHAR="";
+	            //_________________________
+	            //Pattern
+	            //String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+	            final String PATTERN = ONE_DIGIT + LOWER_CASE + UPPER_CASE + SPECIAL_CHAR + NO_SPACE + MIN_MAX_CHAR;
+	            //_________________________
+	            result = PASSWORD_Arg.matches(PATTERN);
+	            //_________________________
+	        }    
+
+	    } catch (Exception ex) {
+	        result=false;
+	    }
+
+	    return result;
+	}  
+	
+	
+	
+	@Override
+
+	public void createCoach(User coach) {
+		em.persist(coach);
+		
+
+	}
+	
+
+	
+	
+	
+	
+	
+	@Override
+	public User findById(int id) {
+		// TODO Auto-generated method stub
+		return em.find(User.class, id);
+	}
+	
+	
+	@Override
+	public void update(User u) {
+		u=findById(u.getId());
+		em.merge(u);
+	}
+	
+	
+	@Override
+	public List<User> findAllUsers(int id) {
+		List<User> users = em.createQuery("SELECT c FROM user c WHERE c.id=:id", User.class).getResultList();
+		
+		System.out.println(users);
+		
+		return users;
+	} 
+	
+	@Override
+	public void updatepara(User p ) {
+
+		em.merge(p);
+	}
+	
+	/////////////////////MANAGE PARAMETRES///////////////////
+
+	@Override
+	public void updateparameter(String email,int userId ) {
+		User user = em.find(User.class, userId);
+		user.setEmail(email);
+	
+	}
+
+	
+	@Override
+	public User getUserDetails(int id) {
+		
+			User userDetails = em.find(User.class, id);
+			return userDetails;
+		
+	}
+
+	@Override
+	public void updateUserDetails(User userDetails) {
+			User details = getUserDetails(userDetails.getId());
+			details.setUsername(userDetails.getUsername());
+			details.setEmail(userDetails.getEmail());
+			details.setPassword(userDetails.getPassword());
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	/////////////////////MANAGE COURSE/////////////////////////
+	
+
+	
+	
+	
+	@Override
+	public List<Course> findAll() {
+		// TODO Auto-generated method stub
+		 return em.createQuery("select e from course e", Course.class).getResultList();
+	}
+	
+	
+	@Override
+
+	public void addCourse(Course course) {
+		em.persist(course);
+		
+
+	}
+	
+	/*@Override
+	public void deletecourse(int id) {
+
+		em.remove(em.find(Course.class,id));
+	}*/
+	
+	@Override
+	public void deletecourse(Course p ) {
+
+		em.remove(em.merge(p));
+	}
+	@Override
+	public void updatecourse(Course p ) {
+
+		em.merge(p);
+	}
+
+	@Override
+	public Course getCourseDetails(int id) {
+		
+			Course courseDetails = em.find(Course.class, id);
+			return courseDetails;
+		
+	}
+
+	@Override
+	public void updateCourseDetails(Course courseDetails) {
+			Course details = getCourseDetails(courseDetails.getId());
+			details.setDescription(courseDetails.getDescription());
+			details.setAdded_at(courseDetails.getAdded_at());
+		
+	}
+	
+	
+	
+	
+	@Override
+	public Course findBydesc(String desc) {
+		
+			String jpql = "Select e From Course e WHERE e.description  like :param ";
+			javax.persistence.Query query =   em.createQuery(jpql);
+			query.setParameter("param", "%"+desc+"%");
+			return (Course) query.getResultList();
+			
+			
+		}
+	
+	/////////////////////MANAGE OFFRES_COACHING///////////////
+	
+	public void addoffCoaching(Coaching coaching) {
+		em.persist(coaching);
+		
+
+	}
+	
+	@Override
+	public List<Coaching> findAllcoaching() {
+		// TODO Auto-generated method stub
+		 return em.createQuery("select e from Coaching e", Coaching.class).getResultList();
+	}
+	
+	@Override
+	public void deleteoffCoaching(int id) {
+
+		em.remove(em.find(Coaching.class,id));
+	}
+	
+	
+	
+	
+	@Override
+	public Coaching getCoachingDetails(int id) {
+		
+			Coaching coachingDetails = em.find(Coaching.class, id);
+			return coachingDetails;
+		
+	}
+
+	@Override
+	public void updateCoachingDetails(Coaching CoachingDetails) {
+		Coaching details = getCoachingDetails(CoachingDetails.getId());
+			details.setTitle(CoachingDetails.getTitle());
+			details.setStart(CoachingDetails.getStart());
+			details.setEnd(CoachingDetails.getEnd());
+
+	}
+	@Override
+	public void deletecoaching(Coaching p ) {
+
+		em.remove(em.merge(p));
+	}
+	@Override
+	public void updatecoaching(Coaching p ) {
+
+		em.merge(p);
+	}
+	/////////////////////MANAGE POSTS/////////////////////////
+	public void addposts(Post post) {
+		em.persist(post);
+		
+	}
+	
+	
+	@Override
+	public void deleteposts(int id) {
+
+		em.remove(em.find(Post.class,id));
+	}
+	
+	
+	@Override
+	public Post getPostDetails(int id) {
+		
+		Post postDetails = em.find(Post.class, id);
+			return postDetails;
+		
+	}
+
+	@Override
+	public void updatePostDetails(Post postDetails) {
+		  Post details = getPostDetails(postDetails.getId());
+			details.setContent(postDetails.getContent());
+		
+	}
+	
+	
+	
+	
+	  /////////////////////MANAGE Skills/////////////////////////
+	public void addskills(Skill skill) {
+		em.persist(skill);
+		
+
+	}
+	
+	@Override
+	public void deleteskills(int id) {
+
+		em.remove(em.find(Skill.class,id));
+	}
+	
+	@Override
+	public Skill getSkillDetails(int id) {
+		
+		Skill skillDetails = em.find(Skill.class, id);
+			return skillDetails;
+		
+	}
+
+	@Override
+	public void updateSkillDetails(Skill skillDetails) {
+		Skill details = getSkillDetails(skillDetails.getId());
+			details.setLabel(skillDetails.getLabel());
+		
+	}
+
+}
