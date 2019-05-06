@@ -247,8 +247,12 @@ public class CourseController {
 	
 
 			//Course o=proxy.findBydesc(fil);
+			
+		
+			
 		 ObservableList<Course>obs = FXCollections.observableArrayList();
 		// userTable.setItems(obs);
+		 
 		 for (Course course : proxy.findAll()) {
 
 			obs.add(course);

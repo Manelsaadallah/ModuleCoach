@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -20,7 +19,7 @@
    <children>
       <Pane layoutX="59.0" prefHeight="145.0" prefWidth="1212.0" styleClass="head-background" stylesheets="@style.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="297.0" layoutY="69.0" text="CoahName" textFill="WHITE">
+            <Label fx:id="coachname" layoutX="297.0" layoutY="57.0" prefHeight="53.0" prefWidth="254.0" text="CoachName" textFill="WHITE">
                <font>
                   <Font size="36.0" />
                </font>
@@ -152,24 +151,6 @@
                   <Insets left="50.0" />
                </padding>
             </JFXButton>
-            <JFXButton fx:id="btnactivity" alignment="BASELINE_LEFT" graphicTextGap="10.0" onAction="#handleClicks" prefHeight="43.0" prefWidth="252.0" ripplerFill="#bfadf8" text="Actilvity" textFill="#5b5858">
-               <font>
-                  <Font size="13.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/icons8_Share_64px.png" />
-                     </image>
-                     <viewport>
-                        <Rectangle2D />
-                     </viewport>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </JFXButton>
          </children>
       </VBox>
       <Pane layoutX="120.0" layoutY="45.0" prefHeight="131.0" prefWidth="142.0" style="-fx-background-color: #fff;">
@@ -280,18 +261,6 @@
                   <ImageView fitHeight="19.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/icons8_Sign_Out_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton nodeOrientation="RIGHT_TO_LEFT" prefHeight="38.0" prefWidth="110.0" ripplerFill="WHITE" style="-fx-background-color: #f3f3f3;" text="Settings" textFill="#5b5858">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="17.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/gear2.png" />
                      </image>
                   </ImageView>
                </graphic>

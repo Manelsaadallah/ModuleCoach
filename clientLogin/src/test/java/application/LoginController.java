@@ -8,6 +8,9 @@ import java.util.ResourceBundle;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 import entities.User;
 import javafx.event.ActionEvent;
@@ -49,6 +52,7 @@ public class LoginController implements Initializable {
          //login here
          if (logIn().equals("Success")) {
         	 try {
+             // 	e.setPassword(BCrypt.hashpw("string", BCrypt.gensalt(6)));
 
                  //add you loading or delays - ;-)
                  Node node = (Node) event.getSource();
@@ -58,6 +62,7 @@ public class LoginController implements Initializable {
                  Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/drapo/dashboard/Home.fxml")));
                  stage.setScene(scene);
                  stage.show();
+
 
              } catch (IOException ex) {
                  System.err.println(ex.getMessage());
@@ -76,8 +81,7 @@ public class LoginController implements Initializable {
 			e1.printStackTrace();
 		}
 		RegisterRemote proxy=(RegisterRemote) context.lookup(jndiName);
-		proxy.createCoach(e);
-	
+		//proxy.createCoach(e);
 	//	System.out.println(java.sql.Date.valueOf(Dateprop_dp.getValue())+Timeprop_tf.getText()+type_cb.getItems().toString());
 	}
 	
@@ -109,22 +113,41 @@ public class LoginController implements Initializable {
 	
 	
     //we gonna use string to check for status
-    private String logIn() {
+	
+    private String logIn() throws NamingException {
+    	
+    	
+    	String jndiName="spectrum-ear/spectrum-ejb/Register!services.RegisterRemote";
+		Context context = null;
+		try {
+			context = new InitialContext();
+			
+			
+		} catch (NamingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		RegisterRemote proxy=(RegisterRemote) context.lookup(jndiName);
+    	
+		 
+    	
     	User e= new User();
-
         String usernamee = username.getText();
         String passwordd = password.getText();
+        
 
         //query
        // String sql = "SELECT * FROM User Where username = ? and password = ?";
 
         try {
-           
-            if (username.getText().equals(e.getUsername())&& password.getText().equals(e.getPassword())) {
-            	
+        	if(proxy.usernamebase(username.getText())&& proxy.passwordbase(password.getText())){
+        	
+         //   if (username.getText().equals(e.getUsername())&& password.getText().equals(e.getPassword())) {
+
             	lblStatus.setTextFill(Color.GREEN);
             	lblStatus.setText("Login Successful..Redirecting..");
                 System.out.println("Successfull Login");
+
                 return "Success";
             	
             	
@@ -134,6 +157,7 @@ public class LoginController implements Initializable {
                 System.err.println("Wrong Logins --///");
                 return "Error";
             }
+        	
 
         } catch ( Exception e1) {
             System.err.println(e1.getMessage());
@@ -141,4 +165,5 @@ public class LoginController implements Initializable {
         }
 
     }
+ 
 }

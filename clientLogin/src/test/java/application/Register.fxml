@@ -40,6 +40,6 @@
       <Label fx:id="verifpass" layoutX="115.0" layoutY="498.0" prefHeight="60.0" prefWidth="809.0" textFill="#e01212" />
       <DatePicker fx:id="dob" editable="false" layoutX="130.0" layoutY="236.0" prefHeight="30.0" prefWidth="217.0" promptText="Date of Birth" />
       <JFXComboBox fx:id="cbRole" focusColor="#48a5ea" layoutX="133.0" layoutY="425.0" prefHeight="25.0" prefWidth="217.0" promptText="Role" />
-      <JFXTextField fx:id="sexe" focusColor="#48a5ea" layoutX="418.0" layoutY="239.0" prefHeight="25.0" prefWidth="217.0" promptText="Sexe" />
+      <JFXTextField fx:id="sexe" focusColor="#48a5ea" layoutX="416.0" layoutY="239.0" prefHeight="25.0" prefWidth="217.0" promptText="Sexe" />
    </children>
 </AnchorPane>

@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jboss.sasl.util.UsernamePasswordHashUtil;
+
 import com.jfoenix.controls.JFXButton;
 
 import javafx.event.ActionEvent;
@@ -36,6 +38,8 @@ public class HomeController implements Initializable {
     
     @FXML
     private Label label;
+    @FXML
+    private Label coachname;
    
       @FXML
     private VBox pnl_scroll;
@@ -72,7 +76,6 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
          refreshNodes();
     }    
     
