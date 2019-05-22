@@ -42,7 +42,10 @@ public interface RegisterRemote {
 	void updatecoaching(Coaching p);
 	void updatecourse(Course p);
 	void updatepara(User p);
-	Course findBydesc(String desc);
+	List<Course> findBydesc(String desc);
+	boolean usernamebase(String username);
+	boolean passwordbase(String password);
+	User usernamebase2(String username);
 
 
 }

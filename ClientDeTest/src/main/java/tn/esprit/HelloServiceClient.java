@@ -22,17 +22,20 @@ public class HelloServiceClient {
 		RegisterRemote proxy=(RegisterRemote) context.lookup(jndiName);
 		User e= new User();
 		Course c= new Course();
-		e=proxy.getUserDetails(4);
+		boolean b;
+		System.out.println(proxy.usernamebase("aa"));
+		
+		/*e=proxy.getUserDetails(4);
 		e.setEmail("kkkk");
 		e.setUsername("kkkk"); 
 		e.setPassword("kkkk"); 
-
+*/
 		//proxy.createCoach(e);
 		//proxy.updateparameter("nnnnn",4);
-          proxy.login("coach" , "coach");
+         // proxy.login("coach" , "coach");
 		
-  		List<Course> detailsList = proxy.findAll();
-  		System.out.println(detailsList);
+  		//List<Course> detailsList = proxy.findAll();
+  		//System.out.println(detailsList);
 		
 		//c.setDescription("ooooo");
 

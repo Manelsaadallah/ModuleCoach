@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 //import javax.persistence.Query;
 //import javax.persistence.TypedQuery;
+import javax.persistence.TypedQuery;
 
 import entities.Coaching;
 import entities.Course;
@@ -26,9 +28,40 @@ public class Register implements RegisterLocal, RegisterRemote {
 				q.setParameter("login", login).setParameter("pass", pass);
 				System.out.println(q);*/
 	}
-
-
+	@Override
+	public  boolean usernamebase(String username) {
+		TypedQuery<User> query = em.createQuery("SELECT u FROM user u where u.username= :username",User.class);
+		query.setParameter("username", username);
+		try {
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			System.out.println("no result found");
+		}
+		return false;
+	}
 	
+	@Override
+	public  User usernamebase2(String username) {
+		TypedQuery<User> query = em.createQuery("SELECT u FROM user u where u.username= :username",User.class);
+		return query.setParameter("username", username).getSingleResult();
+			
+		
+	}
+
+
+	@Override
+	public  boolean passwordbase(String password) {
+		TypedQuery<User> query = em.createQuery("SELECT u FROM user u where u.password= :password",User.class);
+		query.setParameter("password", password);
+		try {
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			System.out.println("no result found");
+		}
+		return false;
+	}
 	//______________________________________________________________________________
 	/**
 	 * Validation Password     */
@@ -207,14 +240,10 @@ public class Register implements RegisterLocal, RegisterRemote {
 	
 	
 	@Override
-	public Course findBydesc(String desc) {
-		
-			String jpql = "Select e From Course e WHERE e.description  like :param ";
-			javax.persistence.Query query =   em.createQuery(jpql);
-			query.setParameter("param", "%"+desc+"%");
-			return (Course) query.getResultList();
+	public List<Course> findBydesc(String description) {
 			
-			
+		return em.createQuery("Select e From course e WHERE e.description= :description ", Course.class).getResultList();
+
 		}
 	
 	/////////////////////MANAGE OFFRES_COACHING///////////////

@@ -167,7 +167,7 @@ public class CourseController {
 		RegisterRemote proxy=(RegisterRemote) context.lookup(jndiName);
 		 ObservableList<Course>obs = FXCollections.observableArrayList();
 			// userTable.setItems(obs);
-			proxy.deletecourse(e);
+			proxy.deletecoursee(e);
 
 			 for (Course course : proxy.findAll()) {
 				obs.add(course);

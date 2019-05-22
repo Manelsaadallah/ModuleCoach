@@ -121,6 +121,7 @@ public class RegisterController implements Initializable{
 
 	}
 	String jndiName="spectrum-ear/spectrum-ejb/Register!services.RegisterRemote";
+	
 	Context context = null;
 	try {
 		context = new InitialContext();
